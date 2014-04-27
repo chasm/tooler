@@ -2,11 +2,12 @@ class UsersController < ApplicationController
   before_action :get_user, except: [ :index, :create ]
 
   def index
-    render json: User.all
+    @users = User.includes(:tools).all
   end
 
   def show
-    render json: @user
+    @users = [ @user ]
+    render :index
   end
 
   def create

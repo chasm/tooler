@@ -3,11 +3,16 @@ class ToolsController < ApplicationController
   before_action :get_tool, except: [ :index, :create ]
 
   def index
-    render json: Tool.all
+    @tools = if @include[:user]
+      Tool.includes(:user).all
+    else
+      Tool.all
+    end
   end
 
   def show
-    render json: @tool
+    @tools = [ @tool ]
+    render :index
   end
 
   def create
